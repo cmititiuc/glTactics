@@ -84,7 +84,7 @@ $(document).ready(function(){
     var delta = clock.getDelta();
 
     var d = 100;
-    controls.movementSpeed = 0.33 * d;
+    controls.movementSpeed = d;
     controls.update( delta );
 
     renderer.render(scene, camera);
