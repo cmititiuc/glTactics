@@ -1,6 +1,7 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-
+  <meta charset="UTF-8">
   <title>glTactics</title>
 
   <style>
@@ -33,11 +34,10 @@ $(document).ready(function(){
   var renderer = new THREE.WebGLRenderer();
 
   var gui = new dat.GUI();
-  var FizzyText = function() {
-    this.message = 'dat.gui';
+  var params = {
+    message: "hello",
   };
-  var text = new FizzyText();
-  gui.add(text, 'message');
+  gui.add(params, "message");
 
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.sortObjects = false;
@@ -49,7 +49,7 @@ $(document).ready(function(){
   container.appendChild( renderer.domElement );
   document.body.appendChild( container );
 
-  var controls = new THREE.FlyControls( camera );
+  var controls = new THREE.FlyControls( camera, container );
 
   controls.movementSpeed = 1000;
   controls.domElement = container;
