@@ -18,13 +18,6 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
 <script type="text/javascript" src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
 <script type="text/javascript" src="https://rawgithub.com/mrdoob/three.js/master/examples/js/controls/FlyControls.js"></script>
-<script type="text/javascript" src="http://threejs.org/examples/js/postprocessing/EffectComposer.js"></script>
-<script type="text/javascript" src="http://threejs.org/examples/js/shaders/FilmShader.js"></script>
-<script type="text/javascript" src="http://threejs.org/examples/js/shaders/CopyShader.js"></script>
-<script type="text/javascript" src="http://threejs.org/examples/js/postprocessing/ShaderPass.js"></script>
-<script type="text/javascript" src="http://threejs.org/examples/js/postprocessing/RenderPass.js"></script>
-<script type="text/javascript" src="http://threejs.org/examples/js/postprocessing/FilmPass.js"></script>
-<script type="text/javascript" src="http://threejs.org/examples/js/postprocessing/MaskPass.js"></script>
 <script type="text/javascript" src="https://raw2.github.com/dataarts/dat.gui/master/build/dat.gui.min.js"></script>
 
 <script>
@@ -55,18 +48,7 @@ $(document).ready(function(){
   controls.domElement = container;
   controls.rollSpeed = Math.PI / 12;
   controls.autoForward = false;
-  controls.dragToLook = false;
-
-  var composer = new THREE.EffectComposer( renderer );
-
-  var renderModel = new THREE.RenderPass( scene, camera );
-  var effectFilm = new THREE.FilmPass( 0.35, 0.75, 2048, false );
-
-  effectFilm.renderToScreen = true;
-
-  composer.addPass( renderModel );
-  composer.addPass( effectFilm );
-
+  controls.dragToLook = true;
 
   // yellow squad
   var dir = new THREE.Vector3( -1, 0, 0 );
@@ -91,7 +73,6 @@ $(document).ready(function(){
     origin = new THREE.Vector3( -190, 0, 150 - (i * 20) );
   }
 
-
   camera.position.y = 300;
   camera.lookAt(new THREE.Vector3( 0, -90, 0 ))
 
@@ -106,8 +87,7 @@ $(document).ready(function(){
     controls.movementSpeed = 0.33 * d;
     controls.update( delta );
 
-    renderer.clear();
-    composer.render( delta );
+    renderer.render(scene, camera);
   };
 
   var animate = function () {
