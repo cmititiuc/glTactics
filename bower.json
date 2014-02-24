@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
+    "FlyControls": "https://rawgithub.com/mrdoob/three.js/master/examples/js/controls/FlyControls.js",
     "dat-gui": "~0.5.0",
     "jquery": "~2.1.0",
     "threejs": "*"
