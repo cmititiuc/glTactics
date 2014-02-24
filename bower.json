@@ -1,0 +1,23 @@
+{
+  "name": "glTactics",
+  "version": "0.0.0",
+  "homepage": "https://github.com/cmititiuc/glTactics",
+  "authors": [
+    "Catalin Mititiuc <catalin.mititiuc@gmail.com>"
+  ],
+  "description": "3D Turn-Based Tactical Wargame",
+  "main": "map.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "dat-gui": "~0.5.0",
+    "jquery": "~2.1.0",
+    "threejs": "*"
+  }
+}
