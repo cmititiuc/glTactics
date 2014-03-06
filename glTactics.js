@@ -24,30 +24,7 @@ var GlTactics = function() {
 	};
 
 	self.movement = {
-		flags: {
-			strafeLeft: false,
-			strafeRight: false,
-      forward: false,
-      backward: false,
-      rise: false,
-      fall: false,
-      up: false,
-      down: false,
-      left: false,
-      right: false
-		},
 		keys: {
-      strafeLeft: 65,
-      strafeRight: 68,
-      forward: 87,
-      backward: 83,
-      rise: 82,
-      fall: 70,
-      up: 38,
-      down: 40,
-			left: 37,
-			right: 39,
-
 			one: 49,
 			two: 50,
 			three: 51,
@@ -66,6 +43,7 @@ var GlTactics = function() {
 	self.scene = self.createScene();
 	self.sceneMain();
 	self.camera = self.createCamera();
+  self.controls = self.createControls();
 	self.renderer = self.createRenderer();
 	
 	self.terrain.geometry = self.createTerrain();
@@ -233,6 +211,8 @@ GlTactics.prototype.createCamera = function() {
 GlTactics.prototype.createRenderer = function() {
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
+  // set background color
+  renderer.setClearColor(0xffffff, 1);
 	self.container.appendChild(renderer.domElement);
 	return renderer;
 };
@@ -258,36 +238,6 @@ GlTactics.prototype.setupEvents = function() {
 GlTactics.prototype.keyEvent = function(keycode, state) {
 	var keys = self.movement.keys;
 	switch (keycode) {
-		case keys.strafeLeft:
-			self.movement.flags.strafeLeft = state;
-			break;
-		case keys.strafeRight:
-			self.movement.flags.strafeRight = state;
-			break;
-    case keys.forward:
-      self.movement.flags.forward = state;
-      break;
-    case keys.backward:
-      self.movement.flags.backward = state;
-      break;
-    case keys.rise:
-      self.movement.flags.rise = state;
-      break;
-    case keys.fall:
-      self.movement.flags.fall = state;
-      break;
-    case keys.up:
-      self.movement.flags.up = state;
-      break;
-    case keys.down:
-      self.movement.flags.down = state;
-      break;
-    case keys.left:
-      self.movement.flags.left = state;
-      break;
-    case keys.right:
-      self.movement.flags.right = state;
-      break;
 		case keys.one:
 			state && self.applyTerrainTransform(self.terrainRandomHeightMap);
 			break;
@@ -314,62 +264,20 @@ GlTactics.prototype.keyDown = function(event) {
 	self.keyEvent(event.keyCode, true);
 };
 
-GlTactics.prototype.motion = function() {
-	var zero = new THREE.Vector3(0, 0, 0);
-	var direction = zero;
-	var move = false;
-	if (self.movement.flags.strafeLeft) {
-		self.camera.position.x -= self.movement.speed;
-		move = true;
-	}
-	if (self.movement.flags.strafeRight) {
-		self.camera.position.x += self.movement.speed;
-		move = true;
-	}
-	if (self.movement.flags.forward) {
-    self.camera.position.z -= self.movement.speed;
-    move = true;
-  }
-	if (self.movement.flags.backward) {
-    self.camera.position.z += self.movement.speed;
-    move = true;
-  }
-	if (self.movement.flags.rise) {
-    self.camera.position.y += self.movement.speed;
-    move = true;
-  }
-	if (self.movement.flags.fall) {
-    self.camera.position.y -= self.movement.speed;
-    move = true;
-  }
-	if (self.movement.flags.up) {
-    self.camera.rotation.x += self.movement.speed / 1000;
-    move = true;
-  }
-	if (self.movement.flags.down) {
-    self.camera.rotation.x -= self.movement.speed / 1000;
-    move = true;
-  }
-	if (self.movement.flags.left) {
-    self.camera.rotation.y += self.movement.speed / 1000;
-    move = true;
-  }
-	if (self.movement.flags.right) {
-    self.camera.rotation.y -= self.movement.speed / 1000;
-    move = true;
-  }
-
-	if (move) {
-		// direction.setLength(self.movement.speed);
-		//self.camera.lookAt(new THREE.Vector3(0, 0, 0));
-	}
+GlTactics.prototype.createControls = function() {
+  var controls = new THREE.FlyControls( self.camera );
+  controls.movementSpeed = 1;
+  controls.domElement    = self.container;
+  controls.rollSpeed     = 0.01;
+  controls.autoForward   = false;
+  controls.dragToLook    = true;
+	return controls;
 };
 
-
 GlTactics.prototype.run = function(fps) {
-	self.motion();
 	self.render();
 	self.stats.update();
+  self.controls.update( 1 );
 	setTimeout(
 		function() {
 			self.run(fps);

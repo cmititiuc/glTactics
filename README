@@ -1,8 +1,9 @@
-tasks (ordered):
-================
-get stats to display
-integrate fly controls into glTactics.js
+tasks:
+======
+separate terrain stuff in separate file
+hook in settings unobtrusively
 modify fly controls so you can remap the keys
+make background color selectable
 attempt to get the terrain to render
 add ability to toggle camera gravity (camera falls when on, can be used to explore terrain from on-ground view)
 
@@ -14,7 +15,6 @@ be able to switch from:
   camera flying over terrain
 password protect control panel
 allow other players to join
-
 
 todo:
 =====
