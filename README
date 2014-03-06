@@ -1,9 +1,8 @@
 tasks:
 ======
+quick way to move camera back to start
 while typing in the gui, the key events still trigger (they should not fire when typing in the gui)
-be able to change controls camera invert
 separate terrain stuff in separate file
-hook in settings unobtrusively
 modify fly controls so you can remap the keys
 make background color selectable
 attempt to get the terrain to render
