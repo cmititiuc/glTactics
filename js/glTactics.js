@@ -41,6 +41,8 @@ var GlTactics = function() {
 		},
 		speed: 15
 	};
+  
+  self.bgColor = '#ffffff';
 	
 	self.container = self.createContainer();
 	self.scene = self.createScene();
@@ -216,7 +218,7 @@ GlTactics.prototype.createRenderer = function() {
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
   // set background color
-  renderer.setClearColor(0xffffff, 1);
+  renderer.setClearColor(new THREE.Color(self.bgColor), 1);
 	self.container.appendChild(renderer.domElement);
 	return renderer;
 };
@@ -282,7 +284,10 @@ GlTactics.prototype.createGui = function() {
   var gui = new dat.GUI({ width : 300 });
   gui.add(self.controls, 'movementSpeed');
   gui.add(self.controls, 'rollSpeed');
+  gui.addColor(self, 'bgColor').onChange(function() { self.updateBackgroundColor(); });
   gui.add(self.movement.flags, 'invertY').onFinishChange(function() { self.toggleInvertY(); });
+  gui.add(self, 'centerView');
+  gui.add(self, 'toggleAxes');
   return gui;
 }
 
@@ -291,10 +296,32 @@ GlTactics.prototype.toggleInvertY = function() {
   self.controls.keys['down'] = self.controls.keys['up'] + (self.controls.keys['up'] = self.controls.keys['down'], 0)
 }
 
+GlTactics.prototype.updateBackgroundColor = function() {
+  self.renderer.setClearColor(new THREE.Color(self.bgColor, 1));
+}
+
+GlTactics.prototype.centerView = function() {
+  self.camera.lookAt(new THREE.Vector3(0, 0, 0));
+}
+
+GlTactics.prototype.toggleAxes = function() {
+  if (self.axisHelper) {
+    self.scene.remove(self.axisHelper);
+    self.axisHelper = null;
+  } else {
+    self.axisHelper = new THREE.AxisHelper( 1000 );
+    self.scene.add( self.axisHelper );
+  }
+}
+
 GlTactics.prototype.run = function(fps) {
 	self.render();
 	self.stats.update();
   self.controls.update( 1 );
+  document.getElementById('position-x').innerHTML = self.camera.position.x;
+  document.getElementById('position-y').innerHTML = self.camera.position.y;
+  document.getElementById('position-z').innerHTML = self.camera.position.z;
+  
 	setTimeout(
 		function() {
 			self.run(fps);
