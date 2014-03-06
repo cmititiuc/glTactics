@@ -24,6 +24,9 @@ var GlTactics = function() {
 	};
 
 	self.movement = {
+    flags: {
+      invertY: true
+    },
 		keys: {
 			one: 49,
 			two: 50,
@@ -278,7 +281,14 @@ GlTactics.prototype.createControls = function() {
 GlTactics.prototype.createGui = function() {
   var gui = new dat.GUI({ width : 300 });
   gui.add(self.controls, 'movementSpeed');
+  gui.add(self.controls, 'rollSpeed');
+  gui.add(self.movement.flags, 'invertY').onFinishChange(function() { self.toggleInvertY(); });
   return gui;
+}
+
+GlTactics.prototype.toggleInvertY = function() {
+  // source: http://stackoverflow.com/questions/16201656/how-to-swap-two-variables-in-javascript/20531819#20531819
+  self.controls.keys['down'] = self.controls.keys['up'] + (self.controls.keys['up'] = self.controls.keys['down'], 0)
 }
 
 GlTactics.prototype.run = function(fps) {
