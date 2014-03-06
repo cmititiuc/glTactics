@@ -43,8 +43,9 @@ var GlTactics = function() {
 	self.scene = self.createScene();
 	self.sceneMain();
 	self.camera = self.createCamera();
-  self.controls = self.createControls();
 	self.renderer = self.createRenderer();
+  self.controls = self.createControls();
+  self.gui = self.createGui();
 	
 	self.terrain.geometry = self.createTerrain();
 	
@@ -265,14 +266,20 @@ GlTactics.prototype.keyDown = function(event) {
 };
 
 GlTactics.prototype.createControls = function() {
-  var controls = new THREE.FlyControls( self.camera );
-  controls.movementSpeed = 1;
+  var controls = new THREE.FlyControls( self.camera, self.renderer.domElement );
+  controls.movementSpeed = 10;
   controls.domElement    = self.container;
   controls.rollSpeed     = 0.01;
   controls.autoForward   = false;
   controls.dragToLook    = true;
 	return controls;
 };
+
+GlTactics.prototype.createGui = function() {
+  var gui = new dat.GUI({ width : 300 });
+  gui.add(self.controls, 'movementSpeed');
+  return gui;
+}
 
 GlTactics.prototype.run = function(fps) {
 	self.render();
