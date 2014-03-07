@@ -1,6 +1,5 @@
 tasks:
 ======
-threex.terrain
 while typing in the gui, the key events still trigger (they should not fire when typing in the gui)
 separate terrain stuff in separate file
 modify fly controls so you can remap the keys
