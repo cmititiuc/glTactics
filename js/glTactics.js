@@ -1,3 +1,5 @@
+/* adapted from: http://grahamweldon.com/HtmlTerrain/ */
+
 var self = null;
 
 var GlTactics = function() {
