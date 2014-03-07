@@ -44,7 +44,7 @@ var GlTactics = function() {
 		speed: 15
 	};
   
-  self.bgColor = '#ffffff';
+  self.bgColor = '#dddddd';
 	
 	self.container = self.createContainer();
 	self.scene = self.createScene();
@@ -207,7 +207,7 @@ GlTactics.prototype.createCamera = function() {
 	var camera = new THREE.PerspectiveCamera(
 		65,                                     // Field of View
 		window.innerWidth / window.innerHeight, // Aspect Ratio
-		10,                                     // Near clipping plane
+		.01,                                    // Near clipping plane
 		5000                                    // Far clipping plane
 	);
 	camera.position = new THREE.Vector3(0, 600, 1000);
@@ -290,6 +290,7 @@ GlTactics.prototype.createGui = function() {
   gui.add(self.movement.flags, 'invertY').onFinishChange(function() { self.toggleInvertY(); });
   gui.add(self, 'centerView');
   gui.add(self, 'toggleAxes');
+  gui.add(self, 'generateThreexTerrain');
   return gui;
 }
 
@@ -314,6 +315,36 @@ GlTactics.prototype.toggleAxes = function() {
     self.axisHelper = new THREE.AxisHelper( 1000 );
     self.scene.add( self.axisHelper );
   }
+}
+
+GlTactics.prototype.generateThreexTerrain = function() {
+  var heightMap	= THREEx.Terrain.allocateHeightMap(256, 256);
+	// var heightMap	= THREEx.Terrain.allocateHeightMap(64, 64);
+	// var heightMap	= THREEx.Terrain.allocateHeightMap(4, 4);
+	// var heightMap	= THREEx.Terrain.allocateHeightMap(16, 16);
+	THREEx.Terrain.simplexHeightMap(heightMap);
+  
+	var geometry = THREEx.Terrain.heightMapToPlaneGeometry(heightMap);
+  
+	THREEx.Terrain.heightMapToVertexColor(heightMap, geometry);
+  var material = new THREE.MeshPhongMaterial({
+    shading: THREE.SmoothShading,
+    vertexColors: THREE.VertexColors,
+    wireframe: true
+  });
+  // var material  = new THREE.MeshNormalMaterial({
+  //   shading    : THREE.SmoothShading,
+  // })
+	var mesh	= new THREE.Mesh( geometry, material );
+  mesh.name = 'Terrain';
+	self.scene.remove(self.scene.getObjectByName("Terrain"));
+	self.scene.add( mesh );
+	mesh.lookAt(new THREE.Vector3(0,1,0));
+	mesh.scale.y	= 100;
+	mesh.scale.x	= 100;
+	mesh.scale.z	= 10;
+	mesh.scale.multiplyScalar(10);
+  self.gui.add(self.scene.getObjectByName("Terrain").material, 'wireframe');
 }
 
 GlTactics.prototype.run = function(fps) {

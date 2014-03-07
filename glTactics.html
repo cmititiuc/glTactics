@@ -15,7 +15,7 @@
 		font-size: 10pt;
 	}
 	h2 {
-		margin: 1.5em 1em .5em;
+		margin: .5em 1em .5em;
     text-align: center;
 	}
 	.menu {
@@ -23,6 +23,18 @@
 		top: 50px;
 		margin-left: 20px;
 	}
+  
+  .menu .sub-menu {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px dotted gray;
+    border-radius: 4px;
+    display: inline-block;
+  }
+  
 	ol, ul {
 		margin-left: 20px;
 	}
@@ -40,22 +52,28 @@
 <body>
 
 <div class="menu">
-  <h2>controls</h2>
-  <div>direction w, a, s, d</div>
-  <div>rise r</div>
-  <div>fall f</div>
-  <div>pitch ↑ or ↓</div>
-  <div>yaw ← or →</div>
-  <div>click and drag</div>
-  <div>hide controls h</div>
-  <h2>stats</h2>
-  <div>x position: <span id="position-x"></span></div>
-  <div>y position: <span id="position-y"></span></div>
-  <div>z position: <span id="position-z"></span></div>
+  <div class="sub-menu">
+    <h2>controls</h2>
+    <div>direction w, a, s, d</div>
+    <div>rise r</div>
+    <div>fall f</div>
+    <div>pitch ↑ or ↓</div>
+    <div>yaw ← or →</div>
+    <div>click and drag</div>
+    <div>hide controls h</div>
+  </div>
+  <br />
+  <div class="sub-menu">
+    <h2>stats</h2>
+    <div>x position: <span id="position-x"></span></div>
+    <div>y position: <span id="position-y"></span></div>
+    <div>z position: <span id="position-z"></span></div>
+  </div>
 </div>
 
 <script src="bower_components/threejs/build/three.min.js"/></script>
 <script src="bower_components/dat-gui/build/dat.gui.min.js"/></script>
+<script src="bower_components/threex.terrain/threex.terrain.js"/></script>
 <script src="js/FlyControls.js"/></script>
 <script src="js/SimplexNoise.js"/></script>
 <script src="js/stats.min.js"/></script>
