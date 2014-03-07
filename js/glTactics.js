@@ -301,7 +301,6 @@ GlTactics.prototype.toggleInvertY = function() {
 
 GlTactics.prototype.updateBackgroundColor = function() {
   self.renderer.setClearColor(new THREE.Color(self.bgColor, 1));
-  self.camera.lookAt(new THREE.Vector3(0, 0, 0));
 }
 
 GlTactics.prototype.centerView = function() {
